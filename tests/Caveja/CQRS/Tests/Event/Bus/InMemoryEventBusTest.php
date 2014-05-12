@@ -6,10 +6,10 @@ use Caveja\CQRS\Event\Bus\EventSubscriberInterface;
 use Caveja\CQRS\Event\Bus\InMemoryEventBus;
 use Caveja\CQRS\Event\DomainEvent;
 
-class InMemoryEventBusTest extends \PHPUnit_Framework_TestCase implements \Caveja\CQRS\Event\Bus\EventSubscriberInterface
+class InMemoryEventBusTest extends \PHPUnit_Framework_TestCase implements EventSubscriberInterface
 {
     /**
-     * @var \Caveja\CQRS\Event\Bus\InMemoryEventBus
+     * @var InMemoryEventBus
      */
     private $publisher;
 
@@ -20,7 +20,7 @@ class InMemoryEventBusTest extends \PHPUnit_Framework_TestCase implements \Cavej
 
     protected function setUp()
     {
-        $this->publisher = new \Caveja\CQRS\Event\Bus\InMemoryEventBus();
+        $this->publisher = new InMemoryEventBus();
     }
 
     protected function tearDown()
