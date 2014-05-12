@@ -152,6 +152,16 @@ abstract class EventStoreTest extends \PHPUnit_Framework_TestCase implements Eve
         $this->assertEquals($events, $this->events);
     }
 
+    public function testMultipleEventsNotThrowingExceptions()
+    {
+        $events[] = DomainEvent::create('SomethingHappened', []);
+        $events[] = DomainEvent::create('SomethingElseHappened', []);
+
+        $store = $this->createEventStore(new InMemoryEventBus());
+
+        $store->saveEvents($events[0]->getUuid(), $events, EventStoreInterface::VERSION_NEW);
+    }
+
     public function handle(EventInterface $event)
     {
         $this->events[] = $event;
