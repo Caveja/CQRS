@@ -172,7 +172,7 @@ class MongoEventStore implements EventStoreInterface
 
     /**
      * @param  UUID                 $aggregateId
-     * @param int $expectedVersion
+     * @param  int                  $expectedVersion
      * @return 0
      * @throws ConcurrencyException
      */
