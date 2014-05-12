@@ -2,7 +2,7 @@
 namespace Caveja\CQRS\Tests\Event\Store;
 
 use Caveja\CQRS\Event\Store\InMemoryEventStore;
-use Foodlogger\Domain\Event\Bus\EventPublisherInterface;
+use Caveja\CQRS\Event\Bus\EventPublisherInterface;
 
 class InMemoryEventStoreTest extends EventStoreTest
 {

@@ -4,9 +4,9 @@ namespace Caveja\CQRS\Tests\Event\Store;
 use Doctrine\MongoDB\Connection;
 use Doctrine\MongoDB\Database;
 use Caveja\CQRS\Event\Store\MongoEventStore;
-use Foodlogger\Domain\Event\Bus\EventPublisherInterface;
-use Foodlogger\Domain\Event\Bus\InMemoryEventBus;
-use Foodlogger\Tests\MongoTestUtils;
+use Caveja\CQRS\Event\Bus\EventPublisherInterface;
+use Caveja\CQRS\Event\Bus\InMemoryEventBus;
+use Caveja\CQRS\Tests\MongoTestUtils;
 
 /**
  * Class MongoEventStoreTest
@@ -15,7 +15,7 @@ use Foodlogger\Tests\MongoTestUtils;
  */
 class MongoEventStoreTest extends EventStoreTest
 {
-    use MongoTestUtils;
+    use \Caveja\CQRS\Tests\MongoTestUtils;
 
     /**
      * @var Database
@@ -39,7 +39,7 @@ class MongoEventStoreTest extends EventStoreTest
     protected function setUp()
     {
         $this->connection = new Connection();
-        $this->db = $this->connection->selectDatabase('foodlogger-test');
+        $this->db = $this->connection->selectDatabase('caveja-cqrs-test');
     }
 
     protected function tearDown()

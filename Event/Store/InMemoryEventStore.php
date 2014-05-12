@@ -5,7 +5,7 @@ use ArrayIterator;
 use Caveja\CQRS\Event\EventInterface;
 use Caveja\CQRS\Exception\AggregateNotFoundException;
 use Caveja\CQRS\Exception\ConcurrencyException;
-use Foodlogger\Domain\Event\Bus\EventPublisherInterface;
+use Caveja\CQRS\Event\Bus\EventPublisherInterface;
 use ValueObjects\Identity\UUID;
 
 /**
@@ -30,7 +30,7 @@ class InMemoryEventStore implements EventStoreInterface
     private $eventPublisher;
 
     /**
-     * @param EventPublisherInterface $eventPublisher
+     * @param \Caveja\CQRS\Event\Bus\EventPublisherInterface $eventPublisher
      */
     public function __construct(EventPublisherInterface $eventPublisher)
     {

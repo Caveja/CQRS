@@ -8,8 +8,8 @@ use Doctrine\MongoDB\Database;
 use Doctrine\MongoDB\Exception\ResultException;
 use Caveja\CQRS\Exception\AggregateNotFoundException;
 use Caveja\CQRS\Exception\ConcurrencyException;
-use Foodlogger\Domain\Event\Bus\EventPublisherInterface;
-use Foodlogger\Domain\Event\DomainEvent;
+use Caveja\CQRS\Event\Bus\EventPublisherInterface;
+use Caveja\CQRS\Event\DomainEvent;
 use ValueObjects\Identity\UUID;
 
 /**
@@ -29,13 +29,13 @@ class MongoEventStore implements EventStoreInterface
     private $counters;
 
     /**
-     * @var EventPublisherInterface
+     * @var \Caveja\CQRS\Event\Bus\EventPublisherInterface
      */
     private $eventPublisher;
 
     /**
-     * @param Database                $database
-     * @param EventPublisherInterface $eventPublisher
+     * @param Database                                       $database
+     * @param \Caveja\CQRS\Event\Bus\EventPublisherInterface $eventPublisher
      */
     public function __construct(Database $database, EventPublisherInterface $eventPublisher)
     {

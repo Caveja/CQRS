@@ -3,7 +3,7 @@ namespace Caveja\CQRS\Exception;
 
 /**
  * Class InvalidArgumentException
- * @package Foodlogger\Domain\Tests\Model
+ * @package Caveja\CQRS\Exception
  */
 class InvalidArgumentException extends \InvalidArgumentException
 {

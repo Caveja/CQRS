@@ -3,10 +3,10 @@ namespace Caveja\CQRS\Tests\Event\Store;
 
 use Caveja\CQRS\Event\EventInterface;
 use Caveja\CQRS\Event\Store\EventStoreInterface;
-use Foodlogger\Domain\Event\Bus\EventPublisherInterface;
-use Foodlogger\Domain\Event\Bus\EventSubscriberInterface;
-use Foodlogger\Domain\Event\Bus\InMemoryEventBus;
-use Foodlogger\Domain\Event\DomainEvent;
+use Caveja\CQRS\Event\Bus\EventPublisherInterface;
+use Caveja\CQRS\Event\Bus\EventSubscriberInterface;
+use Caveja\CQRS\Event\Bus\InMemoryEventBus;
+use Caveja\CQRS\Event\DomainEvent;
 use ValueObjects\Identity\UUID;
 
 abstract class EventStoreTest extends \PHPUnit_Framework_TestCase implements EventSubscriberInterface
@@ -34,7 +34,7 @@ abstract class EventStoreTest extends \PHPUnit_Framework_TestCase implements Eve
     }
 
     /**
-     * @param  EventPublisherInterface $eventPublisher
+     * @param  \Caveja\CQRS\Event\Bus\EventPublisherInterface $eventPublisher
      * @return EventStoreInterface
      */
     abstract protected function createEventStore(EventPublisherInterface $eventPublisher);

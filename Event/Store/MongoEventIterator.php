@@ -3,7 +3,7 @@
 namespace Caveja\CQRS\Event\Store;
 
 use Doctrine\MongoDB\Cursor;
-use Foodlogger\Domain\Event\DomainEvent;
+use Caveja\CQRS\Event\DomainEvent;
 
 /**
  * Class MongoEventIterator

@@ -2,14 +2,14 @@
 namespace Caveja\CQRS\Tests\Event\Bus;
 
 use Caveja\CQRS\Event\EventInterface;
-use Foodlogger\Domain\Event\Bus\EventSubscriberInterface;
-use Foodlogger\Domain\Event\Bus\InMemoryEventBus;
-use Foodlogger\Domain\Event\DomainEvent;
+use Caveja\CQRS\Event\Bus\EventSubscriberInterface;
+use Caveja\CQRS\Event\Bus\InMemoryEventBus;
+use Caveja\CQRS\Event\DomainEvent;
 
-class InMemoryEventBusTest extends \PHPUnit_Framework_TestCase implements EventSubscriberInterface
+class InMemoryEventBusTest extends \PHPUnit_Framework_TestCase implements \Caveja\CQRS\Event\Bus\EventSubscriberInterface
 {
     /**
-     * @var InMemoryEventBus
+     * @var \Caveja\CQRS\Event\Bus\InMemoryEventBus
      */
     private $publisher;
 
@@ -20,7 +20,7 @@ class InMemoryEventBusTest extends \PHPUnit_Framework_TestCase implements EventS
 
     protected function setUp()
     {
-        $this->publisher = new InMemoryEventBus();
+        $this->publisher = new \Caveja\CQRS\Event\Bus\InMemoryEventBus();
     }
 
     protected function tearDown()
