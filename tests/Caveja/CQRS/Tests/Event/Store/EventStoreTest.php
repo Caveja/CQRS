@@ -34,7 +34,7 @@ abstract class EventStoreTest extends \PHPUnit_Framework_TestCase implements Eve
     }
 
     /**
-     * @param  \Caveja\CQRS\Event\Bus\EventPublisherInterface $eventPublisher
+     * @param  EventPublisherInterface $eventPublisher
      * @return EventStoreInterface
      */
     abstract protected function createEventStore(EventPublisherInterface $eventPublisher);
@@ -47,7 +47,7 @@ abstract class EventStoreTest extends \PHPUnit_Framework_TestCase implements Eve
 
         $event1 = new DomainEvent(new UUID(), 'SomethingHappened', []);
         $event2 = new DomainEvent(new UUID(), 'SomethingElseHappened', []);
-        $event2->setVersion(\Caveja\CQRS\Event\Store\EventStoreInterface::VERSION_FIRST + 1);
+        $event2->setVersion(EventStoreInterface::VERSION_FIRST + 1);
 
         $store->saveEvents($aggregateId, [$event1, $event2]);
 
@@ -108,21 +108,31 @@ abstract class EventStoreTest extends \PHPUnit_Framework_TestCase implements Eve
     }
 
     /**
+     * @dataProvider wrongVersions
      * @expectedException Caveja\CQRS\Exception\ConcurrencyException
      */
-    public function testSaveWithWrongExpectedVersionThrowsConcurrencyException()
+    public function testSaveWithWrongExpectedVersionThrowsConcurrencyException($wrongVersion)
     {
         $store = $this->createEventStore(new InMemoryEventBus());
 
         $event1 = new DomainEvent(new UUID(), 'SomethingHappened', []);
-        $event1->setVersion(\Caveja\CQRS\Event\Store\EventStoreInterface::VERSION_FIRST);
+        $event1->setVersion(EventStoreInterface::VERSION_FIRST);
         $event2 = new DomainEvent(new UUID(), 'SomethingElseHappened', []);
-        $event1->setVersion(\Caveja\CQRS\Event\Store\EventStoreInterface::VERSION_FIRST + 1);
+        $event1->setVersion(EventStoreInterface::VERSION_FIRST + 1);
 
         $aggregateId = new UUID();
 
         $store->saveEvents($aggregateId, [$event1], EventStoreInterface::VERSION_ANY);
-        $store->saveEvents($aggregateId, [$event2], EventStoreInterface::VERSION_NEW);
+        $store->saveEvents($aggregateId, [$event2], $wrongVersion);
+    }
+
+    public static function wrongVersions()
+    {
+        return [
+            [EventStoreInterface::VERSION_NEW],
+            [1],
+            [2],
+        ];
     }
 
     public function testFirstVersionIsZero()
@@ -133,7 +143,7 @@ abstract class EventStoreTest extends \PHPUnit_Framework_TestCase implements Eve
 
         $aggregateId = new UUID();
 
-        $store->saveEvents($aggregateId, [$event1], \Caveja\CQRS\Event\Store\EventStoreInterface::VERSION_NEW);
+        $store->saveEvents($aggregateId, [$event1], EventStoreInterface::VERSION_NEW);
         $events = iterator_to_array($store->getEventsForAggregate($aggregateId));
 
         $this->assertSame(EventStoreInterface::VERSION_FIRST, array_pop($events)->getVersion());
