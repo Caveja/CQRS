@@ -79,7 +79,7 @@ class MongoEventStore implements EventStoreInterface
                 'aggregate_id' => $aggregateId->getValue(),
                 'type' => $event->getType(),
                 'data' => $event->getData(),
-                'version' => $this->sequence($aggregateId, $expectedVersion),
+                'version' => $expectedVersion = $this->sequence($aggregateId, $expectedVersion),
             ];
 
             $this->events->insert($data);
@@ -135,7 +135,7 @@ class MongoEventStore implements EventStoreInterface
         ];
 
         if ($expectedVersion !== self::VERSION_ANY) {
-            $query['value'] = $expectedVersion;
+            $query['value'] = $expectedVersion + 1;
         }
 
         try {
@@ -143,7 +143,7 @@ class MongoEventStore implements EventStoreInterface
                 '$inc' => ['value' => 1]
             ],[
                 'upsert' => true,
-                'new' => $expectedVersion === self::VERSION_ANY,
+                'new' => true,
             ])['value'] - 1;
         } catch (ResultException $e) {
             throw new ConcurrencyException(sprintf('$expectedVersion = %d not matching', $expectedVersion), 0, $e);
