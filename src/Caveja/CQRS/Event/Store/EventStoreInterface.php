@@ -27,16 +27,16 @@ interface EventStoreInterface
     const VERSION_NEW = -1;
 
     /**
-     * @param  UUID                                        $aggregateId
-     * @param  array                                       $events
-     * @param  int                                         $expectedVersion
-     * @throws \Caveja\CQRS\Exception\ConcurrencyException on wrong $expectedVersion
+     * @param  UUID                 $aggregateId
+     * @param  array                $events
+     * @param  int                  $expectedVersion
+     * @throws ConcurrencyException on wrong $expectedVersion
      */
     public function saveEvents(UUID $aggregateId, array $events, $expectedVersion = self::VERSION_ANY);
 
     /**
-     * @param  UUID                              $aggregateId
-     * @return \Caveja\CQRS\Event\EventInterface
+     * @param  UUID           $aggregateId
+     * @return EventInterface
      */
     public function last(UUID $aggregateId);
 
