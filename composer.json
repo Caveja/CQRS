@@ -32,7 +32,8 @@
     },
     "autoload": {
         "psr-0": {
-            "Caveja\\CQRS": "src/"
+            "Caveja\\CQRS": "src/",
+            "Caveja\\CQRS\\Tests": "tests/"
         }
     }
 }

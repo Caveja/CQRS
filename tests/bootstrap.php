@@ -11,5 +11,3 @@ $ phpunit
 EOT
     );
 }
-
-$loader->add('Caveja\\CQRS\\Tests', __DIR__);
