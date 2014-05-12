@@ -20,6 +20,7 @@
     ],
     "require": {
         "php": ">5.4.0",
+        "ext-mongo": "*",
         "doctrine/mongodb": "~1.0",
         "nicolopignatelli/valueobjects": "~1.1"
     },
