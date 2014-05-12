@@ -2,7 +2,7 @@
 namespace Caveja\CQRS\Command\Handler;
 
 use Caveja\CQRS\Command\CommandInterface;
-use Foodlogger\Domain\Exception\InvalidArgumentException;
+use Caveja\CQRS\Exception\InvalidArgumentException;
 
 /**
  * Class CommandHandlerChain

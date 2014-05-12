@@ -166,7 +166,7 @@ class CommandHandlerChainTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException Foodlogger\Domain\Exception\InvalidArgumentException
+     * @expectedException Caveja\CQRS\Exception\InvalidArgumentException
      */
     public function testNotHandledEventThrowsException()
     {
