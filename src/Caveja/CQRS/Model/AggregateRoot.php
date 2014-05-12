@@ -34,7 +34,7 @@ abstract class AggregateRoot
     }
 
     /**
-     * @return array
+     * @return EventInterface[]
      */
     public function getUncommittedChanges()
     {
