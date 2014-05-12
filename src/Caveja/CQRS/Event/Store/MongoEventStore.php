@@ -127,7 +127,7 @@ class MongoEventStore implements EventStoreInterface
     private function sequence(UUID $aggregateId, $expectedVersion = self::VERSION_ANY)
     {
         if ($expectedVersion === self::VERSION_NEW) {
-            return $this->createNewSequence($aggregateId, $expectedVersion);
+            return $this->createNewSequence($aggregateId);
         }
 
         $query = [
@@ -172,11 +172,10 @@ class MongoEventStore implements EventStoreInterface
 
     /**
      * @param  UUID                 $aggregateId
-     * @param  int                  $expectedVersion
      * @return 0
      * @throws ConcurrencyException
      */
-    private function createNewSequence(UUID $aggregateId, $expectedVersion)
+    private function createNewSequence(UUID $aggregateId)
     {
         $data = [
             '_id' => $aggregateId->getValue(),
@@ -189,7 +188,7 @@ class MongoEventStore implements EventStoreInterface
                 ->insert($data)
             ;
         } catch (\MongoCursorException $e) {
-            throw new ConcurrencyException(sprintf('$expectedVersion = %d not matching', $expectedVersion), 0, $e);
+            throw new ConcurrencyException(sprintf('AggregateID = %s already existing', $aggregateId), 0, $e);
         }
 
         return $data['value'];
