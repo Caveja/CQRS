@@ -146,7 +146,7 @@ class MongoEventStore implements EventStoreInterface
                 'new' => $expectedVersion === self::VERSION_ANY,
             ])['value'] - 1;
         } catch (ResultException $e) {
-            throw new ConcurrencyException(sprintf('$expectedVersion = %d not matching', $expectedVersion, 0, $e));
+            throw new ConcurrencyException(sprintf('$expectedVersion = %d not matching', $expectedVersion), 0, $e);
         }
     }
 
@@ -189,7 +189,7 @@ class MongoEventStore implements EventStoreInterface
                 ->insert($data)
             ;
         } catch (\MongoCursorException $e) {
-            throw new ConcurrencyException(sprintf('$expectedVersion = %d not matching', $expectedVersion, 0, $e));
+            throw new ConcurrencyException(sprintf('$expectedVersion = %d not matching', $expectedVersion), 0, $e);
         }
 
         return $data['value'];
