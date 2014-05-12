@@ -172,14 +172,14 @@ class MongoEventStore implements EventStoreInterface
 
     /**
      * @param  UUID                 $aggregateId
-     * @return 0
+     * @return int
      * @throws ConcurrencyException
      */
     private function createNewSequence(UUID $aggregateId)
     {
         $data = [
             '_id' => $aggregateId->getValue(),
-            'value' => 0,
+            'value' => 1,
         ];
 
         try {
@@ -191,6 +191,6 @@ class MongoEventStore implements EventStoreInterface
             throw new ConcurrencyException(sprintf('AggregateID = %s already existing', $aggregateId), 0, $e);
         }
 
-        return $data['value'];
+        return EventStoreInterface::VERSION_FIRST;
     }
 }
