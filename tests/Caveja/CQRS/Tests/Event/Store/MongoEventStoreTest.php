@@ -44,7 +44,7 @@ class MongoEventStoreTest extends EventStoreTest
 
     protected function tearDown()
     {
-        //$this->db->drop();
+        $this->db->drop();
         $this->connection->close();
     }
 
