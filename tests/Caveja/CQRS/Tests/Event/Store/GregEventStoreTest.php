@@ -8,7 +8,7 @@ use EventStore\Connection;
 /**
  * Class MongoEventStoreTest
  * @package Caveja\CQRS\Tests\Event\Store
- * @group database
+ * @group end2end
  */
 class GregEventStoreTest extends EventStoreTest
 {
