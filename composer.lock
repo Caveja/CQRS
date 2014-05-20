@@ -1104,12 +1104,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/dbellettini/php-eventstore-client.git",
-                "reference": "e9646469d1f6dff9748d741cc2f864f544e1f051"
+                "reference": "7a6025708ca4e162f07a4710acea187f7c100649"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/dbellettini/php-eventstore-client/zipball/e9646469d1f6dff9748d741cc2f864f544e1f051",
-                "reference": "e9646469d1f6dff9748d741cc2f864f544e1f051",
+                "url": "https://api.github.com/repos/dbellettini/php-eventstore-client/zipball/7a6025708ca4e162f07a4710acea187f7c100649",
+                "reference": "7a6025708ca4e162f07a4710acea187f7c100649",
                 "shasum": ""
             },
             "require": {
@@ -1151,7 +1151,7 @@
                 "EventSourcing",
                 "EventStore"
             ],
-            "time": "2014-05-20 13:06:11"
+            "time": "2014-05-20 14:02:56"
         },
         {
             "name": "guzzlehttp/guzzle",
