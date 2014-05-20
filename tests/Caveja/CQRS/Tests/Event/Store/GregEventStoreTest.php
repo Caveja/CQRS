@@ -14,8 +14,6 @@ class GregEventStoreTest extends EventStoreTest
 {
     protected function createEventStore(EventPublisherInterface $eventPublisher)
     {
-        $this->markTestSkipped('GregEventStore not ready');
-
         return new GregEventStore(Connection::create(), $eventPublisher);
     }
 }

@@ -146,6 +146,7 @@ abstract class EventStoreTest extends \PHPUnit_Framework_TestCase implements Eve
         $store->saveEvents($aggregateId, [$event1], EventStoreInterface::VERSION_NEW);
         $events = iterator_to_array($store->getEventsForAggregate($aggregateId));
 
+        $this->assertCount(1, $events);
         $this->assertSame(EventStoreInterface::VERSION_FIRST, array_pop($events)->getVersion());
     }
 

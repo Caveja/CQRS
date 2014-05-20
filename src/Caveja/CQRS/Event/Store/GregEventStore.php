@@ -2,8 +2,11 @@
 namespace Caveja\CQRS\Event\Store;
 
 use Caveja\CQRS\Event\Bus\EventPublisherInterface;
+use Caveja\CQRS\Event\DomainEvent;
 use Caveja\CQRS\Event\EventInterface;
+use Caveja\CQRS\Exception\AggregateNotFoundException;
 use Caveja\CQRS\Exception\ConcurrencyException;
+use Doctrine\MongoDB\ArrayIterator;
 use EventStore\ConnectionInterface;
 use EventStore\EventData;
 use ValueObjects\Identity\UUID;
@@ -42,7 +45,11 @@ class GregEventStore implements EventStoreInterface
      */
     public function saveEvents(UUID $aggregateId, array $events, $expectedVersion = self::VERSION_ANY)
     {
-        $this->connection->appendToStream($this->getStreamName($aggregateId), $expectedVersion, $this->convertEvents($events));
+        try {
+            $this->connection->appendToStream($this->getStreamName($aggregateId), $expectedVersion, $this->convertEvents($events));
+        } catch (\EventStore\Exception\ConcurrencyException $e) {
+            throw new ConcurrencyException($e->getMessage(), $e->getCode(), $e);
+        }
 
         foreach ($events as $event) {
             $this->eventPublisher->publish($event);
@@ -55,7 +62,7 @@ class GregEventStore implements EventStoreInterface
      */
     public function last(UUID $aggregateId)
     {
-        // TODO: Implement last() method.
+        return $this->getEventsForAggregate($aggregateId)->last();
     }
 
     /**
@@ -64,18 +71,51 @@ class GregEventStore implements EventStoreInterface
      */
     public function count(UUID $aggregateId)
     {
-        $slice = $this->connection->readStreamEventsForward($this->getStreamName($aggregateId), 0, 100, false);
-
-        return $slice->getNextEventNumber() - 1;
+        try {
+            return count($this->getEventsForAggregate($aggregateId));
+        } catch (AggregateNotFoundException $e) {
+            return 0;
+        }
     }
 
     /**
-     * @param  UUID      $aggregateId
-     * @return \Iterator
+     * @param  UUID                       $aggregateId
+     * @return ArrayIterator|\Iterator
+     * @throws AggregateNotFoundException
+     * @throws ConcurrencyException
      */
     public function getEventsForAggregate(UUID $aggregateId)
     {
-        // TODO: Implement getEventsForAggregate() method.
+        $events = [];
+
+        $start = 0;
+        do {
+            try {
+                $slice = $this->connection->readStreamEventsForward($this->getStreamName($aggregateId), $start, 20, false);
+            } catch (\EventStore\Exception\ConcurrencyException $e) {
+                throw new ConcurrencyException($e->getMessage(), $e->getCode(), $e);
+            }
+
+            if ($slice->getStatus() === 'StreamNotFound') {
+                throw new AggregateNotFoundException();
+            }
+
+            $start = $slice->getNextEventNumber();
+            $i = $slice->getFromEventNumber();
+
+            foreach ($slice->getEvents() as $event) {
+
+                $data = $event->getData();
+
+                $id = $data['id'];
+                unset($data['id']);
+
+                $events[] = $event = new DomainEvent(new UUID($id), $event->getType(), $data);
+                $event->setVersion($i++);
+            }
+        } while ($start !== null);
+
+        return new ArrayIterator($events);
     }
 
     /**
@@ -87,7 +127,9 @@ class GregEventStore implements EventStoreInterface
         $converted = [];
 
         foreach ($events as $event) {
-            $converted[] = new EventData((string) $event->getUuid(), $event->getType(), $event->getData());
+            $data = $event->getData();
+            $data['id'] = (string) $event->getUuid();
+            $converted[] = new EventData($data['id'], $event->getType(), $data);
         }
 
         return $converted;
