@@ -2,6 +2,8 @@
 namespace Caveja\CQRS\Tests\Event\Store;
 
 use Caveja\CQRS\Event\Bus\EventPublisherInterface;
+use Caveja\CQRS\Event\Store\GregEventStore;
+use EventStore\Connection;
 
 /**
  * Class MongoEventStoreTest
@@ -12,6 +14,8 @@ class GregEventStoreTest extends EventStoreTest
 {
     protected function createEventStore(EventPublisherInterface $eventPublisher)
     {
-        $this->markTestSkipped('Missing EventStore implementation');
+        $this->markTestSkipped('GregEventStore not ready');
+
+        return new GregEventStore(Connection::create(), $eventPublisher);
     }
 }
