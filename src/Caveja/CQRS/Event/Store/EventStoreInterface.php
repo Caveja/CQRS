@@ -28,7 +28,7 @@ interface EventStoreInterface
 
     /**
      * @param  UUID                 $aggregateId
-     * @param  array                $events
+     * @param  EventInterface[]     $events
      * @param  int                  $expectedVersion
      * @throws ConcurrencyException on wrong $expectedVersion
      */

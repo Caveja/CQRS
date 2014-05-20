@@ -3,6 +3,7 @@ namespace Caveja\CQRS\Event\Store;
 
 use Caveja\CQRS\Event\EventInterface;
 use Caveja\CQRS\Exception\ConcurrencyException;
+use EventStore\ConnectionInterface;
 use ValueObjects\Identity\UUID;
 
 /**
@@ -12,8 +13,21 @@ use ValueObjects\Identity\UUID;
 class GregEventStore implements EventStoreInterface
 {
     /**
+     * @var ConnectionInterface
+     */
+    private $connection;
+
+    /**
+     * @param ConnectionInterface $connection
+     */
+    public function __construct(ConnectionInterface $connection)
+    {
+        $this->connection = $connection;
+    }
+
+    /**
      * @param  UUID                 $aggregateId
-     * @param  array                $events
+     * @param  EventInterface[]     $events
      * @param  int                  $expectedVersion
      * @throws ConcurrencyException on wrong $expectedVersion
      */
