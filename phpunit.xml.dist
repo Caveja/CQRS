@@ -8,11 +8,11 @@
     processIsolation="false"
     stopOnFailure="false"
     syntaxCheck="false"
-    bootstrap="tests/bootstrap.php"
+    bootstrap="spec/bootstrap.php"
     >
     <testsuites>
         <testsuite name="Caveja CQRS Test Suite">
-            <directory>./tests/</directory>
+            <directory>./spec/</directory>
         </testsuite>
     </testsuites>
     <filter>

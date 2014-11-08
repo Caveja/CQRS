@@ -19,25 +19,21 @@
         }
     ],
     "require": {
-        "php": ">5.4.0",
+        "php": ">=5.5.0",
         "ext-mongo": "*",
         "doctrine/mongodb": "~1.0",
-        "nicolopignatelli/valueobjects": "~1.1"
+        "broadway/broadway": "~0.2",
+        "dbellettini/eventstore-client": "~0.3"
     },
     "require-dev": {
-        "phpunit/phpunit": ">=3.7",
-        "dbellettini/eventstore-client": "@dev"
-    },
-    "suggest": {
-        "dbellettini/eventstore-client": "Greg Young's EventStore integration"
+        "phpunit/phpunit": ">=3.7,<5"
     },
     "config": {
         "bin-dir": "bin"
     },
     "autoload": {
         "psr-0": {
-            "Caveja\\CQRS": "src/",
-            "Caveja\\CQRS\\Tests": "tests/"
+            "Caveja\\CQRS": "src/"
         }
     }
 }
